@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pumping Lemma Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="An interactive simulator for the Pumping Lemma for Regular Languages.">
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="header">
+      <h1>Pumping Lemma Demonstration Tool</h1>
+      <p class="subtitle">A simulator for disproving regularity.</p> <br>
+      <h3> For any regular language L, there exists a constant p (pumping length) such that any string w ∈ L with |w| ≥
+        p can be split into:
+
+        w = xyz
+
+        with:
+        <br>1. |xy| ≤ p
+        <br>2. |y| > 0
+        <br>3. For all i ≥ 0, the string xyⁱz ∈ L
+      </h3>
+    </header>
+
+    <main class="main-content">
+      <section class="controls glass-panel">
+        <div class="control-group">
+          <label for="languageSelect">SELECT LANGUAGE (L)</label>
+          <select id="languageSelect">
+            <option value="anbn">aⁿ bⁿ (n ≥ 1) - Not Regular</option>
+            <option value="anbm">aⁿ bᵐ (n, m ≥ 1) - Regular</option>
+            <option value="custom">Custom String</option>
+          </select>
+        </div>
+
+        <div class="control-group" id="lengthControl">
+          <label for="lengthSlider">PARAMETER (n = <span id="lengthValue">3</span>)</label>
+          <input type="range" id="lengthSlider" min="1" max="6" value="3">
+        </div>
+
+        <div class="control-group" id="customControl" style="display: none;">
+          <label for="customInput">CUSTOM STRING</label>
+          <input type="text" id="customInput" placeholder="e.g. 0110" value="0110" maxlength="20">
+        </div>
+
+        <button id="generateBtn" class="btn btn-primary">Generate Target String</button>
+      </section>
+
+      <section class="simulator glass-panel">
+        <div class="status-indicator">
+          <div class="status-badge" id="statusBadge">Select y to start</div>
+          <div class="string-info">
+            Length: <span id="stringLength">0</span>
+          </div>
+        </div>
+
+        <div class="string-wrapper">
+          <div class="string-label">
+            <span class="label x-label">x</span>
+            <span class="label y-label">y</span>
+            <span class="label z-label">z</span>
+          </div>
+          <div class="string-blocks" id="stringContainer">
+            <!-- Blocks will be injected here via JS -->
+          </div>
+          <p class="instruction-text">Drag across blocks to select <strong>y</strong>.</p>
+        </div>
+
+        <div class="actions">
+          <button id="pumpBtn" class="btn btn-action y-action" disabled>Pump y (i++)</button>
+          <button id="removeBtn" class="btn btn-action y-action" disabled>Remove y (i=0)</button>
+          <button id="resetBtn" class="btn btn-secondary">Reset Pumping (i=1)</button>
+        </div>
+      </section>
+
+      <section class="info glass-panel">
+        <h2>Pumping Properties</h2>
+        <div class="logic-stats">
+          <div class="stat-box">
+            <span class="stat-label"> Pumping Count (i) </span>
+            <span class="stat-value" id="pumpCountDisplay">1</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label"> Target L </span>
+            <span class="stat-value target-lang" id="targetLangDisplay">aⁿ bⁿ</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
