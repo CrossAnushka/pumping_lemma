@@ -10,19 +10,29 @@ let dragStartIndex = -1;
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('generateBtn').addEventListener('click', generateBaseString);
-  
+
   document.getElementById('languageSelect').addEventListener('change', (e) => {
     const isCustom = e.target.value === 'custom';
     document.getElementById('lengthControl').style.display = isCustom ? 'none' : 'flex';
     document.getElementById('customControl').style.display = isCustom ? 'flex' : 'none';
+    document.getElementById('customRegexControl').style.display = isCustom ? 'flex' : 'none';
   });
 
   document.getElementById('lengthSlider').addEventListener('input', (e) => {
     document.getElementById('lengthValue').textContent = e.target.value;
   });
 
+  document.getElementById('customInput').addEventListener('input', generateBaseString);
+  document.getElementById('customRegex').addEventListener('input', () => {
+    if (document.getElementById('languageSelect').value === 'custom') {
+      const regexPattern = document.getElementById('customRegex').value || '^a+b+a+$';
+      document.getElementById('targetLangDisplay').textContent = '/' + regexPattern + '/';
+      validateString();
+    }
+  });
+
   const container = document.getElementById('stringContainer');
-  
+
   container.addEventListener('mousedown', (e) => {
     // Cannot drag if we are currently investigating pumped result, explicitly reset
     if (pumpCount !== 1) {
@@ -30,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       updatePumpDisplay();
       renderPumpedString();
     }
-    
+
     const charBlock = e.target.closest('.char-block');
     if (charBlock) {
       isDragging = true;
@@ -90,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function generateBaseString() {
   currentLanguage = document.getElementById('languageSelect').value;
-  
+
   let str = '';
   if (currentLanguage === 'anbn') {
     currentN = parseInt(document.getElementById('lengthSlider').value);
@@ -101,10 +111,11 @@ function generateBaseString() {
     document.getElementById('targetLangDisplay').textContent = 'aⁿ bᵐ';
     str = 'a'.repeat(currentN) + 'b'.repeat(Math.max(1, currentN - 1));
   } else {
-    document.getElementById('targetLangDisplay').textContent = 'Custom String';
-    str = document.getElementById('customInput').value || '0110';
+    const regexPattern = document.getElementById('customRegex').value || '^a+b+a+$';
+    document.getElementById('targetLangDisplay').textContent = '/' + regexPattern + '/';
+    str = document.getElementById('customInput').value || 'aabbaa';
   }
-  
+
   baseArray = str.split('');
   resetState();
 }
@@ -114,15 +125,16 @@ function resetState() {
   selectionEnd = -1;
   pumpCount = 1;
   updatePumpDisplay();
-  
+
   document.getElementById('pumpBtn').disabled = true;
   document.getElementById('removeBtn').disabled = true;
-  
+
   const badge = document.getElementById('statusBadge');
   badge.className = 'status-badge';
   badge.textContent = 'Select y to start';
-  
+
   renderPumpedString();
+  updateTheoremConditions(true);
 }
 
 function enableActions() {
@@ -138,7 +150,7 @@ function renderClassesOnly() {
   const blocks = document.querySelectorAll('.char-block');
   blocks.forEach(block => {
     const i = parseInt(block.dataset.index);
-    block.className = 'char-block'; 
+    block.className = 'char-block';
     if (selectionStart !== -1) {
       if (i < selectionStart) {
         block.classList.add('x-part');
@@ -155,9 +167,9 @@ function renderPumpedString() {
   const container = document.getElementById('stringContainer');
   container.innerHTML = '';
   let fullStr = '';
-  
+
   if (baseArray.length === 0) return;
-  
+
   if (selectionStart === -1) {
     baseArray.forEach((c, i) => {
       const el = document.createElement('div');
@@ -207,35 +219,39 @@ function renderPumpedString() {
 
 function validateString() {
   if (selectionStart === -1) return;
-  
+
   let fullStr = '';
   const x = baseArray.slice(0, selectionStart).join('');
   const y = baseArray.slice(selectionStart, selectionEnd + 1).join('');
   const z = baseArray.slice(selectionEnd + 1).join('');
-  
+
   fullStr = x + y.repeat(pumpCount) + z;
-  
+
   let isValid = false;
-  let isCustom = false;
   if (currentLanguage === 'anbn') {
     isValid = checkAnBn(fullStr);
   } else if (currentLanguage === 'anbm') {
     isValid = checkAnBm(fullStr);
   } else {
-    isCustom = true;
+    try {
+      const pattern = document.getElementById('customRegex').value || '^a+b+a+$';
+      const regex = new RegExp(pattern);
+      isValid = regex.test(fullStr);
+    } catch (e) {
+      isValid = false;
+    }
   }
-  
+
   const badge = document.getElementById('statusBadge');
-  if (isCustom) {
-    badge.textContent = 'Custom (Unvalidated)';
-    badge.className = 'status-badge';
-  } else if (isValid) {
+  if (isValid) {
     badge.textContent = 'Still in Language';
     badge.className = 'status-badge success';
   } else {
     badge.textContent = 'Not in Language';
     badge.className = 'status-badge error';
   }
+  
+  updateTheoremConditions(isValid);
 }
 
 function checkAnBn(str) {
@@ -248,4 +264,26 @@ function checkAnBn(str) {
 function checkAnBm(str) {
   if (str.length === 0) return false;
   return /^(a+)(b+)$/.test(str);
+}
+
+function updateTheoremConditions(isValid) {
+  const cond1 = document.getElementById('cond1');
+  const cond2 = document.getElementById('cond2');
+  const cond3 = document.getElementById('cond3');
+
+  if (!cond1 || !cond2 || !cond3) return;
+
+  if (selectionStart === -1 || selectionEnd === -1) {
+    cond1.className = '';
+    cond2.className = '';
+    cond3.className = '';
+    return;
+  }
+
+  const xyLen = selectionEnd + 1;
+  const yLen = selectionEnd - selectionStart + 1;
+
+  cond1.className = xyLen <= currentN ? 'condition-pass' : 'condition-fail';
+  cond2.className = yLen > 0 ? 'condition-pass' : 'condition-fail';
+  cond3.className = isValid ? 'condition-pass' : 'condition-fail';
 }

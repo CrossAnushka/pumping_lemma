@@ -47,10 +47,38 @@ h3 {
 
 .app-container {
   width: 100%;
-  max-width: 850px;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.layout-split {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .layout-split {
+    flex-direction: column;
+  }
+}
+
+.layout-sidebar {
+  flex: 0 0 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.layout-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
 }
 
 .header {
@@ -84,7 +112,7 @@ h3 {
 .controls {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 1.5rem;
 }
 
@@ -116,6 +144,19 @@ input[type="text"] {
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s;
+}
+
+.helper-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.helper-text code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  color: #a5b4fc;
 }
 
 select,
@@ -442,4 +483,94 @@ input[type="range"] {
 .string-blocks::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
+}
+
+/* Formal Definition / Theorem Box Styling */
+.theorem-box {
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  padding: 1.25rem 1.5rem;
+  background: rgba(0, 0, 0, 0.15);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 8px 16px 16px 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.theorem-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.theorem-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.theorem-conditions {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.theorem-conditions li {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+.theorem-conditions li span {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+}
+
+.theorem-conditions strong {
+  color: #e2e8f0;
+  font-family: 'Outfit', monospace;
+  background: rgba(255,255,255,0.08);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+/* Interactive Feedback Styles */
+.theorem-conditions li.condition-pass {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+.theorem-conditions li.condition-pass span {
+  color: #a7f3d0;
+}
+.theorem-conditions li.condition-pass strong {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.2);
+}
+
+.theorem-conditions li.condition-fail {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+.theorem-conditions li.condition-fail span {
+  color: #fecaca;
+}
+.theorem-conditions li.condition-fail strong {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.2);
 }

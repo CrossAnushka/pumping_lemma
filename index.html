@@ -18,84 +18,105 @@
   <div class="app-container">
     <header class="header">
       <h1>Pumping Lemma Demonstration Tool</h1>
-      <p class="subtitle">A simulator for disproving regularity.</p> <br>
-      <h3> For any regular language L, there exists a constant p (pumping length) such that any string w ∈ L with |w| ≥
-        p can be split into:
-
-        w = xyz
-
-        with:
-        <br>1. |xy| ≤ p
-        <br>2. |y| > 0
-        <br>3. For all i ≥ 0, the string xyⁱz ∈ L
-      </h3>
+      <p class="subtitle">A simulator for disproving regularity.</p>
     </header>
 
-    <main class="main-content">
-      <section class="controls glass-panel">
-        <div class="control-group">
-          <label for="languageSelect">SELECT LANGUAGE (L)</label>
-          <select id="languageSelect">
-            <option value="anbn">aⁿ bⁿ (n ≥ 1) - Not Regular</option>
-            <option value="anbm">aⁿ bᵐ (n, m ≥ 1) - Regular</option>
-            <option value="custom">Custom String</option>
-          </select>
-        </div>
-
-        <div class="control-group" id="lengthControl">
-          <label for="lengthSlider">PARAMETER (n = <span id="lengthValue">3</span>)</label>
-          <input type="range" id="lengthSlider" min="1" max="6" value="3">
-        </div>
-
-        <div class="control-group" id="customControl" style="display: none;">
-          <label for="customInput">CUSTOM STRING</label>
-          <input type="text" id="customInput" placeholder="e.g. 0110" value="0110" maxlength="20">
-        </div>
-
-        <button id="generateBtn" class="btn btn-primary">Generate Target String</button>
-      </section>
-
-      <section class="simulator glass-panel">
-        <div class="status-indicator">
-          <div class="status-badge" id="statusBadge">Select y to start</div>
-          <div class="string-info">
-            Length: <span id="stringLength">0</span>
+    <div class="layout-split">
+      <aside class="layout-sidebar">
+        <div class="theorem-box glass-panel">
+          <div class="theorem-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            Formal Definition
           </div>
+          <p class="theorem-text">
+            For any regular language <strong>L</strong>, there exists a pumping length <strong>p</strong> such that any string <strong>w ∈ L</strong> with <strong>|w| ≥ p</strong> can be split into <strong>w = xyz</strong> with:
+          </p>
+          <ul class="theorem-conditions">
+            <li id="cond1"><span>1.</span> <strong>|xy| ≤ p</strong></li>
+            <li id="cond2"><span>2.</span> <strong>|y| > 0</strong></li>
+            <li id="cond3"><span>3.</span> For all <strong>i ≥ 0</strong>, the string <strong>xyⁱz ∈ L</strong></li>
+          </ul>
         </div>
 
-        <div class="string-wrapper">
-          <div class="string-label">
-            <span class="label x-label">x</span>
-            <span class="label y-label">y</span>
-            <span class="label z-label">z</span>
+        <section class="info glass-panel">
+          <h2>Pumping Properties</h2>
+          <div class="logic-stats">
+            <div class="stat-box">
+              <span class="stat-label"> Pumping Count (i) </span>
+              <span class="stat-value" id="pumpCountDisplay">1</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label"> Target L </span>
+              <span class="stat-value target-lang" id="targetLangDisplay">aⁿ bⁿ</span>
+            </div>
           </div>
-          <div class="string-blocks" id="stringContainer">
-            <!-- Blocks will be injected here via JS -->
-          </div>
-          <p class="instruction-text">Drag across blocks to select <strong>y</strong>.</p>
-        </div>
+        </section>
+      </aside>
 
-        <div class="actions">
-          <button id="pumpBtn" class="btn btn-action y-action" disabled>Pump y (i++)</button>
-          <button id="removeBtn" class="btn btn-action y-action" disabled>Remove y (i=0)</button>
-          <button id="resetBtn" class="btn btn-secondary">Reset Pumping (i=1)</button>
-        </div>
-      </section>
+      <main class="layout-main">
+        <section class="controls glass-panel">
+          <div class="control-group">
+            <label for="languageSelect">SELECT LANGUAGE (L)</label>
+            <select id="languageSelect">
+              <option value="anbn">aⁿ bⁿ (n ≥ 1) - Not Regular</option>
+              <option value="anbm">aⁿ bᵐ (n, m ≥ 1) - Regular</option>
+              <option value="custom">Custom String</option>
+            </select>
+          </div>
 
-      <section class="info glass-panel">
-        <h2>Pumping Properties</h2>
-        <div class="logic-stats">
-          <div class="stat-box">
-            <span class="stat-label"> Pumping Count (i) </span>
-            <span class="stat-value" id="pumpCountDisplay">1</span>
+          <div class="control-group" id="lengthControl">
+            <label for="lengthSlider">PARAMETER (n = <span id="lengthValue">3</span>)</label>
+            <input type="range" id="lengthSlider" min="1" max="6" value="3">
           </div>
-          <div class="stat-box">
-            <span class="stat-label"> Target L </span>
-            <span class="stat-value target-lang" id="targetLangDisplay">aⁿ bⁿ</span>
+
+          <div class="control-group" id="customRegexControl" style="display: none;">
+            <label for="customRegex">TARGET LANGUAGE (REGEX)</label>
+            <input type="text" id="customRegex" placeholder="e.g. ^a+b+a+$" value="^a+b+a+$">
+            <small class="helper-text">
+              <b>^</b> start | <b>$</b> end | <b>+</b> 1 or more | <b>*</b> 0 or more<br>
+              Example: <code style="cursor: pointer;" onclick="document.getElementById('customRegex').value='^a+b+a+$'; document.getElementById('customInput').value='aabbaa'; document.getElementById('customRegex').dispatchEvent(new Event('input'))">^a+b+a+$</code> (as, bs, then as)
+            </small>
           </div>
-        </div>
-      </section>
-    </main>
+
+          <div class="control-group" id="customControl" style="display: none;">
+            <label for="customInput">CUSTOM STRING</label>
+            <input type="text" id="customInput" placeholder="e.g. aabbaa" value="aabbaa" maxlength="20">
+          </div>
+
+          <div class="control-group action-group">
+            <label style="visibility: hidden;">ACTION</label>
+            <button id="generateBtn" class="btn btn-primary">Generate Target String</button>
+          </div>
+        </section>
+
+        <section class="simulator glass-panel">
+          <div class="status-indicator">
+            <div class="status-badge" id="statusBadge">Select y to start</div>
+            <div class="string-info">
+              Length: <span id="stringLength">0</span>
+            </div>
+          </div>
+
+          <div class="string-wrapper">
+            <div class="string-label">
+              <span class="label x-label">x</span>
+              <span class="label y-label">y</span>
+              <span class="label z-label">z</span>
+            </div>
+            <div class="string-blocks" id="stringContainer">
+              <!-- Blocks will be injected here via JS -->
+            </div>
+            <p class="instruction-text">Drag across blocks to select <strong>y</strong>.</p>
+          </div>
+
+          <div class="actions">
+            <button id="pumpBtn" class="btn btn-action y-action" disabled>Pump y (i++)</button>
+            <button id="removeBtn" class="btn btn-action y-action" disabled>Remove y (i=0)</button>
+            <button id="resetBtn" class="btn btn-secondary">Reset Pumping (i=1)</button>
+          </div>
+        </section>
+      </main>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>
