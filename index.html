@@ -25,11 +25,17 @@
       <aside class="layout-sidebar">
         <div class="theorem-box glass-panel">
           <div class="theorem-header">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
             Formal Definition
           </div>
           <p class="theorem-text">
-            For any regular language <strong>L</strong>, there exists a pumping length <strong>p</strong> such that any string <strong>w ∈ L</strong> with <strong>|w| ≥ p</strong> can be split into <strong>w = xyz</strong> with:
+            For any regular language <strong>L</strong>, there exists a pumping length <strong>p</strong> such that any
+            string <strong>w ∈ L</strong> with <strong>|w| ≥ p</strong> can be split into <strong>w = xyz</strong> with:
           </p>
           <ul class="theorem-conditions">
             <li id="cond1"><span>1.</span> <strong>|xy| ≤ p</strong></li>
@@ -74,7 +80,9 @@
             <input type="text" id="customRegex" placeholder="e.g. ^a+b+a+$" value="^a+b+a+$">
             <small class="helper-text">
               <b>^</b> start | <b>$</b> end | <b>+</b> 1 or more | <b>*</b> 0 or more<br>
-              Example: <code style="cursor: pointer;" onclick="document.getElementById('customRegex').value='^a+b+a+$'; document.getElementById('customInput').value='aabbaa'; document.getElementById('customRegex').dispatchEvent(new Event('input'))">^a+b+a+$</code> (as, bs, then as)
+              Example: <code style="cursor: pointer;"
+                onclick="document.getElementById('customRegex').value='^a+b+a+$'; document.getElementById('customInput').value='aabbaa'; document.getElementById('customRegex').dispatchEvent(new Event('input'))">^a+b+a+$</code>
+              (as, bs, then as)
             </small>
           </div>
 
