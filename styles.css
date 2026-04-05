@@ -96,7 +96,7 @@ h3 {
 
 .subtitle {
   color: var(--text-secondary);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .glass-panel {
@@ -494,7 +494,7 @@ input[type="range"] {
   background: rgba(0, 0, 0, 0.15);
   border-left: 4px solid var(--primary-color);
   border-radius: 8px 16px 16px 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .theorem-header {
@@ -543,7 +543,7 @@ input[type="range"] {
 .theorem-conditions strong {
   color: #e2e8f0;
   font-family: 'Outfit', monospace;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   padding: 0.1rem 0.3rem;
   border-radius: 4px;
 }
@@ -554,9 +554,11 @@ input[type="range"] {
   border-color: rgba(16, 185, 129, 0.3);
   color: #34d399;
 }
+
 .theorem-conditions li.condition-pass span {
   color: #a7f3d0;
 }
+
 .theorem-conditions li.condition-pass strong {
   color: #34d399;
   background: rgba(16, 185, 129, 0.2);
@@ -567,9 +569,11 @@ input[type="range"] {
   border-color: rgba(239, 68, 68, 0.3);
   color: #fca5a5;
 }
+
 .theorem-conditions li.condition-fail span {
   color: #fecaca;
 }
+
 .theorem-conditions li.condition-fail strong {
   color: #fca5a5;
   background: rgba(239, 68, 68, 0.2);
