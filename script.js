@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('stringContainer');
 
   container.addEventListener('mousedown', (e) => {
-    // Cannot drag if we are currently investigating pumped result, explicitly reset
     if (pumpCount !== 1) {
       pumpCount = 1;
       updatePumpDisplay();
@@ -250,7 +249,7 @@ function validateString() {
     badge.textContent = 'Not in Language';
     badge.className = 'status-badge error';
   }
-  
+
   updateTheoremConditions(isValid);
 }
 
