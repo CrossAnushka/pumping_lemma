@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('customInput').addEventListener('input', generateBaseString);
   document.getElementById('customRegex').addEventListener('input', () => {
     if (document.getElementById('languageSelect').value === 'custom') {
-      const regexPattern = document.getElementById('customRegex').value || '^a+b+a+$';
+      let regexPattern = document.getElementById('customRegex').value || '(a+b)*a';
       document.getElementById('targetLangDisplay').textContent = '/' + regexPattern + '/';
       validateString();
     }
@@ -110,9 +110,9 @@ function generateBaseString() {
     document.getElementById('targetLangDisplay').textContent = 'aⁿ bᵐ';
     str = 'a'.repeat(currentN) + 'b'.repeat(Math.max(1, currentN - 1));
   } else {
-    const regexPattern = document.getElementById('customRegex').value || '^a+b+a+$';
+    let regexPattern = document.getElementById('customRegex').value || '(a+b)*a';
     document.getElementById('targetLangDisplay').textContent = '/' + regexPattern + '/';
-    str = document.getElementById('customInput').value || 'aabbaa';
+    str = document.getElementById('customInput').value || 'aaba';
   }
 
   baseArray = str.split('');
@@ -233,8 +233,9 @@ function validateString() {
     isValid = checkAnBm(fullStr);
   } else {
     try {
-      const pattern = document.getElementById('customRegex').value || '^a+b+a+$';
-      const regex = new RegExp(pattern);
+      let pattern = document.getElementById('customRegex').value || '(a+b)*a';
+      pattern = pattern.replace(/^\^/, '').replace(/\$$/, '');
+      const regex = new RegExp(`^(?:${pattern})$`);
       isValid = regex.test(fullStr);
     } catch (e) {
       isValid = false;

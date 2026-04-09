@@ -77,18 +77,17 @@
 
           <div class="control-group" id="customRegexControl" style="display: none;">
             <label for="customRegex">TARGET LANGUAGE (REGEX)</label>
-            <input type="text" id="customRegex" placeholder="e.g. ^a+b+a+$" value="^a+b+a+$">
+            <input type="text" id="customRegex" placeholder="e.g. (a+b)*a" value="(a+b)*a">
             <small class="helper-text">
-              <b>^</b> start | <b>$</b> end | <b>+</b> 1 or more | <b>*</b> 0 or more<br>
+              <b>( )</b> group | <b>|</b> OR | <b>+</b> 1 or more | <b>*</b> 0 or more<br>
               Example: <code style="cursor: pointer;"
-                onclick="document.getElementById('customRegex').value='^a+b+a+$'; document.getElementById('customInput').value='aabbaa'; document.getElementById('customRegex').dispatchEvent(new Event('input'))">^a+b+a+$</code>
-              (as, bs, then as)
+                onclick="document.getElementById('customRegex').value='(a+b)*a'; document.getElementById('customInput').value='aaba'; document.getElementById('customRegex').dispatchEvent(new Event('input'))">(a+b)*a</code>
             </small>
           </div>
 
           <div class="control-group" id="customControl" style="display: none;">
             <label for="customInput">CUSTOM STRING</label>
-            <input type="text" id="customInput" placeholder="e.g. aabbaa" value="aabbaa" maxlength="20">
+            <input type="text" id="customInput" placeholder="e.g. aaba" value="aaba" maxlength="20">
           </div>
 
           <div class="control-group action-group">
