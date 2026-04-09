@@ -47,7 +47,7 @@ h3 {
 
 .app-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -577,4 +577,94 @@ input[type="range"] {
 .theorem-conditions li.condition-fail strong {
   color: #fca5a5;
   background: rgba(239, 68, 68, 0.2);
+}
+
+/* Proof Box Styles */
+.proof-panel {
+  margin-top: 0;
+  border-left: 4px solid #a5b4fc;
+}
+
+.proof-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.proof-text-active {
+  color: var(--text-primary);
+}
+
+.proof-var {
+  font-family: 'Outfit', monospace;
+  font-weight: 700;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
+.proof-string {
+  font-family: monospace;
+  color: #93c5fd;
+  word-break: break-word;
+}
+
+/* DFA SVG Styles */
+.dfa-visualization {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.dfa-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid var(--panel-border);
+}
+
+.dfa-node, .dfa-edge {
+  transition: all 0.3s ease;
+}
+
+.dfa-node.active-x {
+  fill: #1e3a8a;
+  stroke: #93c5fd;
+  filter: drop-shadow(0 0 8px rgba(147, 197, 253, 0.8));
+}
+
+.dfa-edge.active-x {
+  stroke: #93c5fd;
+}
+
+.dfa-node.active-y {
+  fill: #4c1d95;
+  stroke: #e8b2ff;
+  filter: drop-shadow(0 0 12px rgba(232, 178, 255, 0.9));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse-y 0.5s ease-in-out forwards;
+}
+
+.dfa-edge.active-y {
+  stroke: #e8b2ff;
+}
+
+.dfa-node.active-z {
+  fill: #831843;
+  stroke: #f9a8d4;
+  filter: drop-shadow(0 0 8px rgba(249, 168, 212, 0.8));
+}
+
+.dfa-edge.active-z {
+  stroke: #f9a8d4;
+}
+
+@keyframes node-pulse-y {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
