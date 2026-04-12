@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isCustomRegex = val === 'custom';
     const isCustomFormal = val === 'customFormal';
     const hasM = val === 'anbm';
-    document.getElementById('lengthControl').style.display = isCustomRegex ? 'none' : 'flex';
+    document.getElementById('lengthControl').style.display = 'flex';
     document.getElementById('lengthControlM').style.display = hasM ? 'flex' : 'none';
     document.getElementById('customControl').style.display = isCustomRegex ? 'flex' : 'none';
     document.getElementById('customRegexControl').style.display = isCustomRegex ? 'flex' : 'none';
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('lengthSlider').addEventListener('input', (e) => {
     document.getElementById('lengthValue').textContent = e.target.value;
-    if (document.getElementById('languageSelect').value === 'customFormal') {
+    if (document.getElementById('languageSelect').value === 'customFormal' || document.getElementById('languageSelect').value === 'custom') {
       generateBaseString();
     }
   });
@@ -164,6 +164,7 @@ function generateBaseString() {
       str += tok.char.repeat(val);
     });
   } else {
+    currentN = parseInt(document.getElementById('lengthSlider').value);
     let regexPattern = document.getElementById('customRegex').value || '(a+b)*a';
     document.getElementById('targetLangDisplay').textContent = '/' + regexPattern + '/';
     str = document.getElementById('customInput').value || 'aaba';
@@ -183,6 +184,37 @@ function resetState() {
   document.getElementById('removeBtn').disabled = true;
 
   const badge = document.getElementById('statusBadge');
+  
+  if (baseArray.length < currentN) {
+    badge.className = 'status-badge error';
+    badge.textContent = `Condition Failed: |s| < p`;
+    const container = document.getElementById('stringContainer');
+    container.innerHTML = `<p style="color: #fca5a5; margin: auto; text-align: center; padding: 1rem;">Target string length (|s| = ${baseArray.length}) must be at least the pumping length (p = ${currentN}).</p>`;
+    document.getElementById('stringLength').textContent = baseArray.length;
+    
+    const proofBox = document.getElementById('proofText');
+    if (proofBox) {
+      proofBox.innerHTML = '<strong>Initial Condition Failed:</strong> The target string is too short to apply the Pumping Lemma. Increase the string length or decrease parameter p.';
+      proofBox.className = 'proof-text proof-text-active';
+    }
+    
+    const cond0 = document.getElementById('cond0');
+    if (cond0) cond0.className = 'condition-fail';
+    
+    // reset other conditions
+    ['cond1', 'cond2', 'cond3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.className = '';
+    });
+    
+    const dfav = document.getElementById('dfaContainer');
+    if (dfav) dfav.style.opacity = '0.3';
+    return;
+  } else {
+    const dfav = document.getElementById('dfaContainer');
+    if (dfav) dfav.style.opacity = '1';
+  }
+
   badge.className = 'status-badge';
   badge.textContent = 'Select y to start';
 
@@ -432,9 +464,14 @@ function checkCustomFormal(str, tokens) {
 }
 
 function updateTheoremConditions(isValid) {
+  const cond0 = document.getElementById('cond0');
   const cond1 = document.getElementById('cond1');
   const cond2 = document.getElementById('cond2');
   const cond3 = document.getElementById('cond3');
+
+  if (cond0) {
+    cond0.className = baseArray.length >= currentN ? 'condition-pass' : 'condition-fail';
+  }
 
   if (!cond1 || !cond2 || !cond3) return;
 
@@ -476,18 +513,18 @@ function generateFormalProof(isValid) {
   const pumpedStr = x + y.repeat(pumpCount) + z;
 
   let proofHTML = `
-    Let <span class="proof-var">p</span> be the pumping length. We select string <span class="proof-var">w</span> = <span class="proof-string">${w}</span>.<br><br>
+    Let <span class="proof-var">p</span> be the pumping length. We select string <span class="proof-var">s</span> = <span class="proof-string">${w}</span>.<br><br>
     The partition chosen is:<br>
     <span class="proof-var">x</span> = <span class="proof-string">${x || 'ε'}</span><br>
     <span class="proof-var">y</span> = <span class="proof-string">${y}</span><br>
     <span class="proof-var">z</span> = <span class="proof-string">${z || 'ε'}</span><br><br>
-    By pumping <span class="proof-var">i = ${pumpCount}</span>, we generate string <span class="proof-var">w'</span> = xy<sup style="font-size:0.7em">${pumpCount}</sup>z = <span class="proof-string">${pumpedStr}</span>.<br><br>
+    By pumping <span class="proof-var">i = ${pumpCount}</span>, we generate string <span class="proof-var">s'</span> = xy<sup style="font-size:0.7em">${pumpCount}</sup>z = <span class="proof-string">${pumpedStr}</span>.<br><br>
   `;
 
   if (isValid) {
-    proofHTML += `Because <span class="proof-var">w'</span> respects the target language structure, <span class="proof-var">w' ∈ L</span>. The lemma holds for this partition and pump count.`;
+    proofHTML += `Because <span class="proof-var">s'</span> respects the target language structure, <span class="proof-var">s' ∈ L</span>. The lemma holds for this partition and pump count.`;
   } else {
-    proofHTML += `Because <span class="proof-var">w'</span> breaks the structural constraints of the language, <span class="proof-var">w' ∉ L</span>.<br><br>
+    proofHTML += `Because <span class="proof-var">s'</span> breaks the structural constraints of the language, <span class="proof-var">s' ∉ L</span>.<br><br>
     This contradicts the Pumping Lemma! Therefore, the language is proved to be <strong>Not Regular</strong>.`;
   }
 
@@ -543,7 +580,7 @@ function analyzeAllPartitions() {
   const conclusion = document.getElementById('matrixConclusion');
   
   const isRegex = document.getElementById('languageSelect').value === 'custom';
-  const p = isRegex ? baseArray.length : currentN;
+  const p = currentN;
   
   pValueDisplay.textContent = p;
   matrixPumpCount.textContent = pumpCount;

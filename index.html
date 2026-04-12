@@ -35,9 +35,11 @@
           </div>
           <p class="theorem-text">
             For any regular language <strong>L</strong>, there exists a pumping length <strong>p</strong> such that any
-            string <strong>w ∈ L</strong> with <strong>|w| ≥ p</strong> can be split into <strong>w = xyz</strong> with:
+            string <strong>s ∈ L</strong> with <strong>|s| ≥ p</strong> can be split into <strong>s = xyz</strong> with:
           </p>
           <ul class="theorem-conditions">
+            <li id="cond0"><span>0.</span> <strong>|s| ≥ p</strong> <span style="font-size:0.8em;opacity:0.8">(Initial
+                Condition)</span></li>
             <li id="cond1"><span>1.</span> <strong>|xy| ≤ p</strong></li>
             <li id="cond2"><span>2.</span> <strong>|y| > 0</strong></li>
             <li id="cond3"><span>3.</span> For all <strong>i ≥ 0</strong>, <strong>xyⁱz ∈ L</strong></li>
@@ -56,14 +58,17 @@
               <span class="stat-value target-lang" id="targetLangDisplay">aⁿ bⁿ</span>
             </div>
           </div>
-          <button id="multiPumpBtn" class="btn" style="background:#4c1d95; color:white; border:none; margin-top: 1.5rem; width: 100%;">Analyze All Valid Partitions (Multi-Pump)</button>
+          <button id="multiPumpBtn" class="btn"
+            style="background:#4c1d95; color:white; border:none; margin-top: 1.5rem; width: 100%;">Analyze All Valid
+            Partitions (Multi-Pump)</button>
         </section>
 
       </aside>
 
       <main class="layout-main">
         <section class="controls glass-panel">
-          <div class="controls-left" style="display: flex; flex-direction: column; gap: 1.5rem; flex: 1; min-width: 250px;">
+          <div class="controls-left"
+            style="display: flex; flex-direction: column; gap: 1.5rem; flex: 1; min-width: 250px;">
             <div class="control-group">
               <label for="languageSelect">SELECT LANGUAGE (L)</label>
               <select id="languageSelect">
@@ -81,15 +86,16 @@
             </div>
           </div>
 
-          <div class="controls-right" style="display: flex; flex-direction: column; gap: 1.5rem; flex: 1; min-width: 250px;">
+          <div class="controls-right"
+            style="display: flex; flex-direction: column; gap: 1.5rem; flex: 1; min-width: 250px;">
             <div class="control-group" id="lengthControl">
-              <label for="lengthSlider">PARAMETER (n = <span id="lengthValue">3</span>)</label>
-              <input type="range" id="lengthSlider" min="1" max="6" value="3">
+              <label for="lengthSlider">PARAMETER/PUMPING LENGTH (p = <span id="lengthValue">3</span>)</label>
+              <input type="range" id="lengthSlider" min="1" max="10" value="3">
             </div>
 
             <div class="control-group" id="lengthControlM" style="display: none;">
               <label for="lengthSliderM">PARAMETER (m = <span id="lengthValueM">2</span>)</label>
-              <input type="range" id="lengthSliderM" min="1" max="6" value="2">
+              <input type="range" id="lengthSliderM" min="1" max="10" value="2">
             </div>
 
             <div class="control-group" id="customFormalControl" style="display: none;">
@@ -198,31 +204,41 @@
       </aside>
     </div>
   </div>
-  <div id="multiPumpModal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 11, 20, 0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px);">
-    <div class="modal-content glass-panel" style="max-width: 900px; width: 90%; max-height: 85vh; display: flex; flex-direction: column;">
+  <div id="multiPumpModal" class="modal-overlay"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 11, 20, 0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px);">
+    <div class="modal-content glass-panel"
+      style="max-width: 900px; width: 90%; max-height: 85vh; display: flex; flex-direction: column;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
         <h2 style="margin:0; font-size: 1.5rem; color: #e2e8f0; font-family: 'Outfit';">Multi-Pumping Matrix</h2>
-        <button id="closeModalBtn" style="background:none; border:none; color:white; font-size: 2rem; cursor:pointer; line-height: 1;">&times;</button>
+        <button id="closeModalBtn"
+          style="background:none; border:none; color:white; font-size: 2rem; cursor:pointer; line-height: 1;">&times;</button>
       </div>
-      <p style="color: var(--text-secondary); margin-top: 0;">Generating all legal partitions where <strong>|xy| &le; p</strong> (p=<span id="matrixPValue"></span>) and <strong>|y| &gt; 0</strong>. Pumping exactly <strong>i = <span id="matrixPumpCount"></span></strong> times.</p>
-      
-      <div style="overflow-y: auto; flex: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;">
-        <table class="matrix-table" style="width: 100%; border-collapse: collapse; text-align: left; font-family: monospace; font-size: 0.95rem;">
+      <p style="color: var(--text-secondary); margin-top: 0;">Generating all legal partitions where <strong>|xy| &le;
+          p</strong> (p=<span id="matrixPValue"></span>) and <strong>|y| &gt; 0</strong>. Pumping exactly <strong>i =
+          <span id="matrixPumpCount"></span></strong> times.<br></p>
+
+      <div
+        style="overflow-y: auto; flex: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;">
+        <table class="matrix-table"
+          style="width: 100%; border-collapse: collapse; text-align: left; font-family: monospace; font-size: 0.95rem;">
           <thead style="position: sticky; top: 0; z-index: 1;">
-            <tr style="background: #1e2336; font-family: 'Inter'; font-size: 0.85rem; color: #a5b4fc; text-transform: uppercase;">
+            <tr
+              style="background: #1e2336; font-family: 'Inter'; font-size: 0.85rem; color: #a5b4fc; text-transform: uppercase;">
               <th style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);">x</th>
               <th style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); color: #e8b2ff;">y</th>
               <th style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);">z</th>
-              <th style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);">Pumped String (w')</th>
-              <th style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">w' &isin; L?</th>
+              <th style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);">Pumped String (s')</th>
+              <th style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">s' &isin;
+                L?</th>
             </tr>
           </thead>
           <tbody id="matrixBody">
           </tbody>
         </table>
       </div>
-      
-      <div id="matrixConclusion" style="padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px; font-weight: bold; font-size: 1.1rem; text-align: center; border: 1px solid transparent;">
+
+      <div id="matrixConclusion"
+        style="padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px; font-weight: bold; font-size: 1.1rem; text-align: center; border: 1px solid transparent;">
       </div>
     </div>
   </div>
