@@ -43,7 +43,7 @@ Status indicators provide real-time boolean feedback indicating whether $s'$ is 
 The simulator provides a continuous map of user progression through the formal definition of the lemma.
 
 Condition Tracking: The formal mathematical conditions ($|s| \ge p$, $|xy| \le p$, $|y| > 0$, and validity of $xy^iz \in L$) are tracked via an active checklist system. Conditions are dynamically flagged as passed (green) or failed (red) based on the user's current partition and pump count.
-Automated Proof Synthesis: A pseudo-formal proof narrative automatically generates adjacent to the visualization. It structurally transcribes the user's specific partition coordinates, identifies the pumped string iteration, and formulates a mathematical conclusion on whether the current state contradicts the Pumping Lemma.
+Proof Synthesis: A pseudo-formal proof narrative automatically generates adjacent to the visualization. It structurally transcribes the user's specific partition coordinates, identifies the pumped string iteration, and formulates a mathematical conclusion on whether the current state contradicts the Pumping Lemma.
 
 ### 6. Multi-Pumping Matrix Analysis
 To definitively prove a language is non-regular, one partition failing is not enough; all possible legal partitions where $|xy| \le p$ and $|y| > 0$ must fail.
