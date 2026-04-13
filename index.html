@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pumping Lemma Tool - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="An interactive simulator for the Pumping Lemma for Regular Languages.">
+</head>
+
+<body>
+  <nav class="navbar glass-panel">
+    <div class="nav-brand">PL Simulator</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="simulator.html" class="nav-link">Simulator</a>
+      <a href="theory.html" class="nav-link">Theory</a>
+    </div>
+  </nav>
+
+  <div class="app-container hero-container">
+    <header class="hero-header">
+      <h1>Pumping Lemma Demonstration Tool</h1>
+      <p class="hero-subtitle">Interactive visualization and automated proof synthesis for Regular Languages.</p>
+      <div class="hero-actions">
+        <a href="simulator.html" class="btn btn-primary hero-btn">Launch Simulator</a>
+        <a href="theory.html" class="btn btn-secondary hero-btn">Read Theory</a>
+      </div>
+    </header>
+
+    <section class="features-grid">
+      <div class="feature-card glass-panel">
+        <div class="feature-icon">✨</div>
+        <h3>Interactive Pumping</h3>
+        <p>Visually split strings into x, y, and z. Dynamically duplicate or remove the y substring to observe
+          structural language constraints breaking in real-time.</p>
+      </div>
+      <div class="feature-card glass-panel">
+        <div class="feature-icon">📝</div>
+        <h3>Formal Proofs</h3>
+        <p>Generates pseudo-formal text proofs mapping your exact string partition, parameters, and pump count directly
+          to the mathematical theorem.</p>
+      </div>
+      <div class="feature-card glass-panel">
+        <div class="feature-icon">🧮</div>
+        <h3>Multi-Pump Matrix</h3>
+        <p>Computationally evaluates all valid partitions simultaneously to conclusively disprove regularity for a given
+          target string and configuration.</p>
+      </div>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
