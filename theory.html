@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pumping Lemma Tool - Theory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar glass-panel">
+    <div class="nav-brand">PL Simulator</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="simulator.html" class="nav-link">Simulator</a>
+      <a href="theory.html" class="nav-link active">Theory</a>
+    </div>
+  </nav>
+
+  <div class="app-container theory-container">
+    <article class="theory-content glass-panel">
+      <h1 class="theory-title">The Pumping Lemma for Regular Languages</h1>
+      
+      <section class="theory-section">
+        <h2>Formal Definition</h2>
+        <div class="theorem-box inset-box" style="margin-top: 1rem; margin-bottom: 2rem;">
+          <p class="theorem-text">
+            If a language <strong>L</strong> is regular, then there exists some integer <strong>p ≥ 1</strong> (the pumping length) such that every string <strong>s</strong> in <strong>L</strong> of length at least <strong>p</strong> (|s| ≥ p) can be written as <strong>s = xyz</strong>, satisfying the following conditions:
+          </p>
+          <ul class="theorem-conditions">
+             <li><span>1.</span> <strong>|y| > 0</strong> &nbsp; <span style="font-size:0.85em; opacity:0.8">(The substring y cannot be empty)</span></li>
+             <li><span>2.</span> <strong>|xy| ≤ p</strong> &nbsp; <span style="font-size:0.85em; opacity:0.8">(The loop must occur within the first p characters)</span></li>
+             <li><span>3.</span> For all <strong>i ≥ 0</strong>, <strong>xyⁱz ∈ L</strong> &nbsp; <span style="font-size:0.85em; opacity:0.8">(Pumping y any number of times keeps the string in L)</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="theory-section">
+        <h2>Proof by Contradiction</h2>
+        <p class="theory-body-text">The Pumping Lemma is primarily used to prove that a language is <strong>not</strong> regular. To do this, we use a proof by contradiction, commonly structured as a "game" against an adversary:</p>
+        <ol class="proof-steps" style="margin-top: 1rem;">
+          <li><strong>Assume</strong> the language L is regular.</li>
+          <li>Therefore, there must exist some pumping length <strong>p</strong>.</li>
+          <li>We choose a specific string <strong>s ∈ L</strong> where |s| ≥ p. (This represents a difficult case for the adversary).</li>
+          <li>The adversary partitions the string into <strong>s = xyz</strong> such that conditions 1 and 2 hold.</li>
+          <li>We find at least one pump count <strong>i</strong> (often i=0 or i=2) where the resulting string <strong>xyⁱz ∉ L</strong>.</li>
+          <li>Because condition 3 was broken for <em>every valid partition the adversary could possibly make</em>, our initial assumption was false. The language is <strong>not regular</strong>.</li>
+        </ol>
+      </section>
+
+      <section class="theory-section">
+        <h2>Invalidity of the Lemma Converse</h2>
+        <p class="theory-body-text">
+          While the pumping lemma states that all regular languages satisfy the conditions described above, the converse of this statement is not true: a language that satisfies these conditions may still be non-regular. In other words, both the original and the general version of the pumping lemma give a necessary but not sufficient condition for a language to be regular.
+        </p>
+      </section>
+
+    </article>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
