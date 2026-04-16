@@ -387,7 +387,7 @@ function checkAnB3n(str) {
 
 function parseFormalFormula(formula) {
   const clean = formula.replace(/\s+/g, '');
-  const regex = /([a-zA-Z0-9])\^(?:([^()\s]+)|\(([^()]+)\))/g;
+  const regex = /([a-zA-Z0-9])\^(?:\(([^()]+)\)|(.*?)(?=[a-zA-Z0-9]\^|$))/g;
   let tokens = [];
   let match;
   while ((match = regex.exec(clean)) !== null) {
